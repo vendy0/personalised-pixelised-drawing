@@ -1,0 +1,128 @@
+/** @format */
+
+:root {
+	--clr-active: black;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	display: grid;
+	grid-template-rows: repeat(11 1fr);
+	align-items: start;
+	justify-content: start;
+	height: 100vh;
+	width: auto;
+	color: #080;
+}
+
+.box-row {
+	width: 100vw;
+	display: flex;
+	flex-direction: row;
+}
+.box {
+	width: 50px;
+	height: 50px;
+	/* margin: 1px; */
+	/* background: white; */
+	border: 1px solid skyblue;
+	max-height: calc(100vh / 12);
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	background: #fff;
+}
+.box-row .box.one {
+	background: #fff !important;
+	color: #fff !important;
+	border-color: white !important;
+}
+
+.box-row:first-child {
+	/* background: rgb(51, 51, 51) !important; */
+	color: #fff !important;
+}
+
+button {
+	align-items: center;
+	text-align: center;
+	margin: 0 auto;
+	padding: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	background: #576067;
+	color: #bbb;
+	width: 50vw;
+}
+.buttons {
+	font-weight: bold;
+	color: #578067;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	border: 1px solid gray;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	margin-inline: 0;
+	padding-inline: 0;
+	padding-block: 20px;
+	gap: 5px;
+	background: rgb(204, 204, 204);
+}
+
+#check {
+	opacity: 0.8;
+	font-style: italic;
+}
+
+/* Masque la checkbox par défaut */
+.custom-circle-checkbox input[type="checkbox"] {
+	display: none;
+}
+
+/* Crée un cercle pour la checkbox personnalisée */
+.custom-circle-checkbox .circle {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid #245412;
+	display: inline-block;
+	margin-right: 10px;
+	vertical-align: middle;
+	position: relative;
+	transition: background-color 0.3s;
+}
+
+/* Lorsque la checkbox est cochée, change la couleur du cercle */
+.custom-circle-checkbox input[type="checkbox"]:checked + .circle {
+	background-color: #008800;
+}
+
+/* Crée l'effet de coche à l'intérieur du cercle */
+.custom-circle-checkbox input[type="checkbox"]:checked + .circle::after {
+	content: "✔";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	font-size: 10px;
+}
+
+input:color {
+	width: 30vw;
+}
+/* 
+a {
+	display: none;
+} */
