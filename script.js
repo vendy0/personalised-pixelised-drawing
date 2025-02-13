@@ -11,10 +11,18 @@ const check = document.getElementById("check");
 boxes.forEach((box) => {
 	box.addEventListener("click", () => {
 		let currentBg = window.getComputedStyle(box).backgroundColor;
-		box.style.backgroundColor = "var(--clr-active)";
-		box.style.borderColor = border.checked
-			? "skyblue"
-			: "var(--clr-active)";
+		console.log(currentBg);
+		if (currentBg == "rgb(255, 255, 255)") {
+			box.style.backgroundColor = "var(--clr-active)";
+			box.style.borderColor = border.checked
+				? "skyblue"
+				: "var(--clr-active)";
+		} else {
+			box.style.backgroundColor = "rgb(255, 255, 255)";
+			box.style.borderColor = border.checked
+				? "skyblue"
+				: "var(--clr-active)";
+		}
 	});
 });
 
@@ -68,4 +76,14 @@ document.getElementById("capture-btn").addEventListener("click", function () {
 			console.error("Erreur lors de la capture :", error);
 			alert("Une erreur est survenue lors de la capture !");
 		});
+});
+
+// Tout supprimer
+clear.addEventListener("click", () => {
+	let clearConfirm = confirm("Voulez-vous vraiment tout supprimer ?");
+	if (clearConfirm) {
+		boxes.forEach((box) => {
+			box.style.backgroundColor = "rgb(255, 255, 255)";
+		});
+	}
 });
