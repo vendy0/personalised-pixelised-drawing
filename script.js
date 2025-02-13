@@ -19,9 +19,7 @@ boxes.forEach((box) => {
 				: "var(--clr-active)";
 		} else {
 			box.style.backgroundColor = "rgb(255, 255, 255)";
-			box.style.borderColor = border.checked
-				? "skyblue"
-				: "var(--clr-active)";
+			box.style.borderColor = "skyblue";
 		}
 	});
 });
@@ -84,6 +82,7 @@ clear.addEventListener("click", () => {
 	if (clearConfirm) {
 		boxes.forEach((box) => {
 			box.style.backgroundColor = "rgb(255, 255, 255)";
+			box.style.borderColor = "skyblue";
 		});
 	}
 });
