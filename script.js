@@ -6,6 +6,9 @@ const colorInput = document.getElementById("colorPicker");
 const save = document.getElementById("save");
 const border = document.getElementById("border");
 const check = document.getElementById("check");
+const colorPicker = document.getElementById("colorPicker");
+const downloadButton = document.getElementById("download-button");
+const config = document.getElementById("config");
 
 // 🎨 Changer la couleur de fond des boîtes
 boxes.forEach((box) => {
@@ -46,7 +49,7 @@ border.addEventListener("change", () => {
 });
 
 // 💾 Sauvegarder la couleur sélectionnée
-save.addEventListener("click", () => {
+colorPicker.addEventListener("change", () => {
 	let selectedColor = colorInput.value;
 	document.documentElement.style.setProperty("--clr-active", selectedColor);
 });
@@ -54,15 +57,12 @@ save.addEventListener("click", () => {
 //Capture d'écran
 document.getElementById("capture-btn").addEventListener("click", function () {
 	const captureZone = document.getElementById("all-boxes");
-
 	html2canvas(captureZone)
 		.then((canvas) => {
 			// Convertit le canvas en une image PNG
 			const imageURL = canvas.toDataURL("image/png");
 			// Crée un lien de téléchargement
-			const downloadButton = document.getElementById("download-button");
 			downloadButton.style.display = "block";
-
 			downloadButton.addEventListener("click", function () {
 				const a = document.createElement("a");
 				a.href = imageURL;
@@ -74,6 +74,14 @@ document.getElementById("capture-btn").addEventListener("click", function () {
 			console.error("Erreur lors de la capture :", error);
 			alert("Une erreur est survenue lors de la capture !");
 		});
+	downloadButton.style.backgroundColor = "var(--clr-active)";
+});
+
+downloadButton.addEventListener("click", function () {
+	downloadButton.style.backgroundColor = "rgba(87,96,103,1)";
+	if (config.value == "config2") {
+		downloadButton.style.display = "none";
+	}
 });
 
 // Tout supprimer
