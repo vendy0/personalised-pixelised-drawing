@@ -433,10 +433,11 @@
 			<input type="color" id="colorPicker" />
 
 			<hr />
-
-			<button id="save" style="display:none;">Appliquer</button>
+			
+						<button id="adjust-name">Set name</button>
 
 			<hr />
+
 			<button id="capture-btn">Capturer l'écran</button>
 
 			<hr />
@@ -451,16 +452,16 @@
 
 			<hr />
 
-			<select name="config" id="config" placeholder="Que préferez vous ?">
-				<option value="" disabled="disabled" selected="selected"
-					>Que préferez-Vous ?
+			<select name="config" id="config">
+				<option
+					value=""
+					disabled="disabled"
+					selected="selected"
+					hidden="hidden"
+					>Options
 				</option>
-				<option value="config1"
-					>Changement de couleur / Config 1</option
-				>
-				<option value="config2"
-					>Disparition / Config 2</option
-				>
+				<option value="config1">Changement de couleur</option>
+				<option value="config2">Disparition</option>
 			</select>
 		</div>
 

@@ -1,14 +1,23 @@
 /** @format */
 
-const clear = document.getElementById("clear");
 const boxes = document.querySelectorAll(".box");
-const colorInput = document.getElementById("colorPicker");
+const clear = document.getElementById("clear");
+const colorPicker = document.getElementById("colorPicker");
 const save = document.getElementById("save");
 const border = document.getElementById("border");
 const check = document.getElementById("check");
-const colorPicker = document.getElementById("colorPicker");
 const downloadButton = document.getElementById("download-button");
+const adjustName = document.getElementById("adjust-name");
 const config = document.getElementById("config");
+
+//Set Name
+let imgName = "pixel-art"; // Valeur par défaut
+adjustName.addEventListener("click", () => {
+	imgName =
+		prompt("Sous quel nom voulez-vous enregistrer votre image ?") ||
+		"pixel-art";
+	if (!imgName) imgName = "pixel-art"; // Évite un nom vide
+});
 
 // 🎨 Changer la couleur de fond des boîtes
 boxes.forEach((box) => {
@@ -28,10 +37,14 @@ boxes.forEach((box) => {
 });
 
 // 📏 Ajuster la largeur des boîtes pour correspondre à leur hauteur
-boxes.forEach((box) => {
-	let heightValue = parseFloat(window.getComputedStyle(box).height);
-	box.style.width = heightValue + "px";
-});
+function ajusterTaille() {
+	boxes.forEach((box) => {
+		let heightValue = parseFloat(window.getComputedStyle(box).height);
+		box.style.width = heightValue + "px";
+	});
+}
+ajusterTaille();
+window.addEventListener("resize", ajusterTaille);
 
 // ✏️ Activer/Désactiver les bordures
 border.addEventListener("change", () => {
@@ -50,7 +63,7 @@ border.addEventListener("change", () => {
 
 // 💾 Sauvegarder la couleur sélectionnée
 colorPicker.addEventListener("change", () => {
-	let selectedColor = colorInput.value;
+	let selectedColor = colorPicker.value;
 	document.documentElement.style.setProperty("--clr-active", selectedColor);
 });
 
@@ -63,25 +76,34 @@ document.getElementById("capture-btn").addEventListener("click", function () {
 			const imageURL = canvas.toDataURL("image/png");
 			// Crée un lien de téléchargement
 			downloadButton.style.display = "block";
-			downloadButton.addEventListener("click", function () {
-				const a = document.createElement("a");
-				a.href = imageURL;
-				a.download = "Pexel.png";
-				a.click();
-			});
+			downloadButton.style.backgroundColor = "var(--clr-active)";
+
+			// Supprimer l'ancien écouteur pour éviter l'empilement
+			downloadButton.replaceWith(downloadButton.cloneNode(true));
+			const newDownloadButton =
+				document.getElementById("download-button");
+
+			// Ajouter un nouvel écouteur
+			newDownloadButton.addEventListener(
+				"click",
+				function () {
+					this.style.backgroundColor =
+						"rgba(87,96,103,1)";
+					if (config.value === "config2") {
+						this.style.display = "none";
+					}
+					const a = document.createElement("a");
+					a.href = imageURL;
+					a.download = (imgName || "pixel-art")+ ".png";
+					a.click();
+				},
+				{once: true}
+			);
 		})
 		.catch((error) => {
 			console.error("Erreur lors de la capture :", error);
 			alert("Une erreur est survenue lors de la capture !");
 		});
-	downloadButton.style.backgroundColor = "var(--clr-active)";
-});
-
-downloadButton.addEventListener("click", function () {
-	downloadButton.style.backgroundColor = "rgba(87,96,103,1)";
-	if (config.value == "config2") {
-		downloadButton.style.display = "none";
-	}
 });
 
 // Tout supprimer
