@@ -1,21 +1,29 @@
 /** @format */
 
+//Déclaration des variables
 const boxes = document.querySelectorAll(".box");
 const clear = document.getElementById("clear");
 const colorPicker = document.getElementById("colorPicker");
 const save = document.getElementById("save");
 const border = document.getElementById("border");
 const check = document.getElementById("check");
+const captureBtn = document.getElementById("capture-btn");
 const downloadButton = document.getElementById("download-button");
 const adjustName = document.getElementById("adjust-name");
 const config = document.getElementById("config");
 
+//Gestion des cliques sur le bouton de téléchargement
+downloadButton.addEventListener("click", () => {
+	downloadButton.style.backgroundColor = "#576067";
+	if (config.value == "config2") {
+		downloadButton.style.display = "none";
+	}
+});
+
 //Set Name
 let imgName = "pixel-art"; // Valeur par défaut
 adjustName.addEventListener("click", () => {
-	imgName =
-		prompt("Sous quel nom voulez-vous enregistrer votre image ?") ||
-		"pixel-art";
+	imgName = prompt("Sous quel nom voulez-vous enregistrer votre image ?");
 	if (!imgName) imgName = "pixel-art"; // Évite un nom vide
 });
 
@@ -68,43 +76,25 @@ colorPicker.addEventListener("change", () => {
 });
 
 //Capture d'écran
-document.getElementById("capture-btn").addEventListener("click", function () {
-	const captureZone = document.getElementById("all-boxes");
-	html2canvas(captureZone)
-		.then((canvas) => {
+captureBtn
+	.addEventListener("click", function () {
+		const captureZone = document.getElementById("all-boxes");
+		html2canvas(captureZone).then((canvas) => {
 			// Convertit le canvas en une image PNG
 			const imageURL = canvas.toDataURL("image/png");
 			// Crée un lien de téléchargement
+			const a = document.createElement("a");
+			a.href = imageURL;
+			a.download = (imgName || "pixel-art") + ".png";
+			a.click();
 			downloadButton.style.display = "block";
 			downloadButton.style.backgroundColor = "var(--clr-active)";
-
-			// Supprimer l'ancien écouteur pour éviter l'empilement
-			downloadButton.replaceWith(downloadButton.cloneNode(true));
-			const newDownloadButton =
-				document.getElementById("download-button");
-
-			// Ajouter un nouvel écouteur
-			newDownloadButton.addEventListener(
-				"click",
-				function () {
-					this.style.backgroundColor =
-						"rgba(87,96,103,1)";
-					if (config.value === "config2") {
-						this.style.display = "none";
-					}
-					const a = document.createElement("a");
-					a.href = imageURL;
-					a.download = (imgName || "pixel-art")+ ".png";
-					a.click();
-				},
-				{once: true}
-			);
-		})
-		.catch((error) => {
-			console.error("Erreur lors de la capture :", error);
-			alert("Une erreur est survenue lors de la capture !");
 		});
-});
+	})
+	.catch((error) => {
+		console.error("Erreur lors de la capture :", error);
+		alert("Une erreur est survenue lors de la capture !");
+	});
 
 // Tout supprimer
 clear.addEventListener("click", () => {
