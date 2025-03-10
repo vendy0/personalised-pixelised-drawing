@@ -6,19 +6,10 @@ const clear = document.getElementById("clear");
 const colorPicker = document.getElementById("colorPicker");
 const save = document.getElementById("save");
 const border = document.getElementById("border");
-const check = document.getElementById("check");
 const captureBtn = document.getElementById("capture-btn");
 const downloadButton = document.getElementById("download-button");
 const adjustName = document.getElementById("adjust-name");
 const config = document.getElementById("config");
-
-//Gestion des cliques sur le bouton de téléchargement
-downloadButton.addEventListener("click", () => {
-	downloadButton.style.backgroundColor = "#576067";
-	if (config.value == "config2") {
-		downloadButton.style.display = "none";
-	}
-});
 
 //Set Name
 let imgName = "pixel-art"; // Valeur par défaut
@@ -56,9 +47,6 @@ window.addEventListener("resize", ajusterTaille);
 
 // ✏️ Activer/Désactiver les bordures
 border.addEventListener("change", () => {
-	check.textContent = border.checked
-		? "Lignes activées"
-		: "Lignes désactivées";
 	boxes.forEach((box) => {
 		let currentBg = window.getComputedStyle(box).backgroundColor;
 		box.style.borderColor = border.checked
@@ -76,10 +64,10 @@ colorPicker.addEventListener("change", () => {
 });
 
 //Capture d'écran
-captureBtn
-	.addEventListener("click", function () {
-		const captureZone = document.getElementById("all-boxes");
-		html2canvas(captureZone).then((canvas) => {
+captureBtn.addEventListener("click", function () {
+	const captureZone = document.getElementById("all-boxes");
+	html2canvas(captureZone)
+		.then((canvas) => {
 			// Convertit le canvas en une image PNG
 			const imageURL = canvas.toDataURL("image/png");
 			// Crée un lien de téléchargement
@@ -87,14 +75,14 @@ captureBtn
 			a.href = imageURL;
 			a.download = (imgName || "pixel-art") + ".png";
 			a.click();
-			downloadButton.style.display = "block";
+			downloadButton.style.display = "none";
 			downloadButton.style.backgroundColor = "var(--clr-active)";
+		})
+		.catch((error) => {
+			console.error("Erreur lors de la capture :", error);
+			alert("Une erreur est survenue lors de la capture !");
 		});
-	})
-	.catch((error) => {
-		console.error("Erreur lors de la capture :", error);
-		alert("Une erreur est survenue lors de la capture !");
-	});
+});
 
 // Tout supprimer
 clear.addEventListener("click", () => {
@@ -104,5 +92,13 @@ clear.addEventListener("click", () => {
 			box.style.backgroundColor = "rgb(255, 255, 255)";
 			box.style.borderColor = "skyblue";
 		});
+	}
+});
+
+//Gestion des cliques sur le bouton de téléchargement
+downloadButton.addEventListener("click", () => {
+	downloadButton.style.backgroundColor = "#576067";
+	if (config.value == "config2") {
+		downloadButton.style.display = "none";
 	}
 });
